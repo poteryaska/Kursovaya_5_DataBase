@@ -1,7 +1,7 @@
 import psycopg2
 class DBManager:
     def __init__(self):
-
+        pass
 
     def get_companies_and_vacancies_count(self):
         '''получает список всех компаний и количество вакансий у каждой компании'''
