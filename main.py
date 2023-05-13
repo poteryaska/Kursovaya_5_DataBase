@@ -1,7 +1,10 @@
-
-
+from src.config import config
+from src.classes import DBManager
 def main():
-    pass
+    params = config()
+    HH = DBManager('HH', params)
+    HH.create_database()
+
 
 
 if __name__ == '__main__':
