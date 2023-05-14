@@ -1,10 +1,5 @@
 import requests
-import psycopg2
-from config import config
 
-# https://api.hh.ru/employers/{employer_id}
-# https://api.hh.ru/vacancies?employer_id=5974128
-#
 def get_companies(companies_name: str) -> list:
     '''Получаем список ID компании по API'''
     companies_list = companies_name.split(',')
@@ -25,11 +20,12 @@ def get_companies(companies_name: str) -> list:
 
     return all_companies
 
-imp = get_companies('Woori, Мегафон')
-print(imp)
-all_imp = []
-for i in imp:
-    all_imp.append(i[0])
+# imp = get_companies('мегафон, мтс')
+# print(imp)
+# all_imp = []
+# for i in imp:
+#     all_imp.append(i[0])
+# print(all_imp)
 def get_vacancies_companies(id_companies: list):
     '''Получаем список ID компании по API'''
     url = "https://api.hh.ru/vacancies"
@@ -63,6 +59,7 @@ def get_vacancies_companies(id_companies: list):
             all_vacancies.append(one_vacancy)
     return all_vacancies
 
-get_vacancies_companies(all_imp)
+# a = get_vacancies_companies(all_imp)
+
 
 
