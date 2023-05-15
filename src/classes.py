@@ -68,7 +68,6 @@ class DBManager:
         conn.commit()
         conn.close()
 
-
     def get_companies_and_vacancies_count(self):
         '''получает список всех компаний и количество вакансий у каждой компании'''
         conn = psycopg2.connect(dbname=self.__db_name, **self.__params)
@@ -84,7 +83,6 @@ class DBManager:
             for company in companies:
                 print(company)
         conn.close()
-
 
     def get_all_vacancies(self):
         '''получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию'''
@@ -154,5 +152,3 @@ HH = DBManager('hh', params)
 # vacancies = get_vacancies_companies(ids_companies)
 # HH.save_data_to_database(companies, vacancies)
 HH.get_vacancies_with_keyword('менедж')
-
-
