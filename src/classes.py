@@ -127,7 +127,7 @@ class DBManager:
         conn.close()
 
     def get_vacancies_with_keyword(self, keyword):
-        '''получает список всех вакансий, в названии которых содержатся переданные в метод слова, например “python”'''
+        '''получает список всех вакансий, в названии которых содержатся переданные слова'''
         conn = psycopg2.connect(dbname=self.__db_name, **self.__params)
 
         with conn.cursor() as cur:
@@ -141,8 +141,8 @@ class DBManager:
         conn.close()
 
 
-params = config()
-HH = DBManager('hh', params)
+# params = config()
+# HH = DBManager('hh', params)
 # HH.create_database()
 # HH.create_tables()
 # companies = get_companies('мегафон, мтс')
@@ -151,4 +151,4 @@ HH = DBManager('hh', params)
 #     ids_companies.append(id[0])
 # vacancies = get_vacancies_companies(ids_companies)
 # HH.save_data_to_database(companies, vacancies)
-HH.get_vacancies_with_keyword('менедж')
+# HH.get_vacancies_with_keyword('менедж')
