@@ -1,23 +1,27 @@
 import psycopg2
-from config import config
-from utils import get_companies, get_vacancies_companies
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 class DBManager:
+    '''Класс для работы с базой данных'''
+
     def __init__(self, db_name: str, params: dict):
         self.__db_name = db_name
         self.__params = params
 
     def create_database(self):
         '''Создание базы данных для хранения данных, полученных из HH'''
-        conn = psycopg2.connect(dbname='postgres', **self.__params)
-        conn.autocommit = True
-        cur = conn.cursor()
+        try:
+            conn = psycopg2.connect(dbname='postgres', **self.__params)
+            conn.autocommit = True
+            cur = conn.cursor()
+            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cur.execute(f"DROP DATABASE {self.__db_name}")
+            cur.execute(f"CREATE DATABASE {self.__db_name}")
+            cur.close()
+            conn.close()
+        except:
 
-        # cur.execute(f"DROP DATABASE {self.__db_name}")
-        cur.execute(f"CREATE DATABASE {self.__db_name}")
-        cur.close()
-        conn.close()
 
     def create_tables(self):
         '''Создание таблиц companies и vacancies в созданной базе данных'''
@@ -105,7 +109,7 @@ class DBManager:
         conn = psycopg2.connect(dbname=self.__db_name, **self.__params)
 
         with conn.cursor() as cur:
-            cur.execute("SELECT ROUND (AVG(salary_from)) "
+            cur.execute("SELECT cast (ROUND (AVG(salary_from)) as varchar) "
                         "FROM vacancies ")
             conn.commit()
             avg_salary = cur.fetchall()
@@ -139,16 +143,3 @@ class DBManager:
             for vacancy in vacancies:
                 print(vacancy)
         conn.close()
-
-
-# params = config()
-# HH = DBManager('hh', params)
-# HH.create_database()
-# HH.create_tables()
-# companies = get_companies('мегафон, мтс')
-# ids_companies = []
-# for id in companies:
-#     ids_companies.append(id[0])
-# vacancies = get_vacancies_companies(ids_companies)
-# HH.save_data_to_database(companies, vacancies)
-# HH.get_vacancies_with_keyword('менедж')

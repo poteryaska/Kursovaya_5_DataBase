@@ -16,7 +16,7 @@ def main():
     vacancies = get_vacancies_companies(ids_companies)
     HH.save_data_to_database(companies, vacancies)
     while True:
-        request = input(f'Какие данные вывести, введите цыфру:\n'
+        request = input(f'Какие данные вывести, введите цифру:\n'
                         f'1 - список компаний и количество вакансий у каждой компании\n'
                         f'2 - список всех вакансий с указанием названия компании, названия вакансии, зарплаты и ссылки на вакансию\n'
                         f'3 - среднюю зарплату по вакансиям\n'

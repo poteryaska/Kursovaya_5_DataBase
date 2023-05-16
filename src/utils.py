@@ -2,7 +2,7 @@ import requests
 
 
 def get_companies(companies_name: str) -> list:
-    '''Получаем список ID компании по API'''
+    '''Получаем список ID на сайте hh.ru компании по API'''
     companies_list = companies_name.split(',')
     all_companies = []
     for company in companies_list:
@@ -18,12 +18,14 @@ def get_companies(companies_name: str) -> list:
             for company in companies:
                 one_company = (company['id'], company['name'])
                 all_companies.append(one_company)
+        else:
+            print("Error:", response.status_code)
 
     return all_companies
 
 
 def get_vacancies_companies(id_companies: list):
-    '''Получаем список ID компании по API'''
+    '''Получаем список ID компании на сайте hh.ru по API'''
     url = "https://api.hh.ru/vacancies"
     all_vacancies = []
     params = {
@@ -53,4 +55,7 @@ def get_vacancies_companies(id_companies: list):
                 salary_to
             )
             all_vacancies.append(one_vacancy)
+    else:
+        print("Error:", response.status_code)
+
     return all_vacancies
