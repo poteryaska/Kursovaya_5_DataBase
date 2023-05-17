@@ -9,19 +9,28 @@ class DBManager:
         self.__db_name = db_name
         self.__params = params
 
+    @property
+    def db_name(self):
+        return self.__db_name
+
+    @property
+    def params(self):
+        return self.__params
+
     def create_database(self):
         '''Создание базы данных для хранения данных, полученных из HH'''
+        conn = psycopg2.connect(dbname='postgres', **self.__params)
         try:
-            conn = psycopg2.connect(dbname='postgres', **self.__params)
             conn.autocommit = True
-            cur = conn.cursor()
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cur.execute(f"DROP DATABASE {self.__db_name}")
-            cur.execute(f"CREATE DATABASE {self.__db_name}")
-            cur.close()
-            conn.close()
-        except:
-
+            with conn.cursor() as cur:
+                cur.execute(f"DROP DATABASE {self.__db_name}")
+                cur.execute(f"CREATE DATABASE {self.__db_name}")
+        except(Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                conn.close()
 
     def create_tables(self):
         '''Создание таблиц companies и vacancies в созданной базе данных'''

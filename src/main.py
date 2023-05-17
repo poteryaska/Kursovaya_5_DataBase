@@ -1,5 +1,5 @@
 from config import config
-from classes import DBManager
+from DBManager import DBManager
 from utils import get_companies, get_vacancies_companies
 
 
@@ -33,7 +33,9 @@ def main():
             HH.get_vacancies_with_higher_salary()
         elif request.strip() == '5':
             keyword = input('Введите ключевое слово для поиска\n')
-            HH.get_vacancies_with_keyword(keyword)
+            a = HH.get_vacancies_with_keyword(keyword)
+            if a is None:
+                print("Таких вакансий нет на сайте")
         elif request.strip() == '6':
             break
         else:
